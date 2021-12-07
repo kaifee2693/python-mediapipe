@@ -1,6 +1,8 @@
+# Write on screen using index finger
 import cv2
 import mediapipe as mp
 import numpy as np
+
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
@@ -81,34 +83,19 @@ with mp_hands.Hands(
         # pts = []
         if results.multi_hand_landmarks:
             for hand_landmarks in results.multi_hand_landmarks:
-                # image = cv2.circle(image, (x,y), radius=0, color=(0, 0, 255), thickness=-1)
-                # print(hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP])
                 index_finger = hand_landmarks.landmark[mp_hands.HandLandmark.INDEX_FINGER_TIP]
                 position = (
                     int(index_finger.x*image.shape[1]), int(index_finger.y*image.shape[0]))
-                print(prev)
-                print(position)
-                # print(image.shape)
-                # pts.extend(position)
-                # cv2.circle(
-                #     image,
-                #     position,
-                #     1,
-                #     (0, 0, 255),
-                #     cv2.FILLED
-                # )
                 if not prev:
                     prev = position
                 cv2.line(
-                    canvas, 
+                    canvas,
                     prev,
                     position,
                     (0, 0, 255),
                     15
                 )
                 prev = position
-
-                # cv2.polylines(canvas, pts, isClosed=False, color=(0,0,255), thickness=2)
                 mp_drawing.draw_landmarks(
                     image,
                     hand_landmarks,
@@ -116,7 +103,7 @@ with mp_hands.Hands(
                     mp_drawing_styles.get_default_hand_landmarks_style(),
                     mp_drawing_styles.get_default_hand_connections_style())
         # Flip the image horizontally for a selfie-view display.
-        img = cv2.addWeighted(image, 0.5, canvas, 0.5,0)
+        img = cv2.addWeighted(image, 0.5, canvas, 0.5, 0)
         cv2.imshow('MediaPipe Hands', cv2.flip(img, 1))
         # cv2.imshow("Canvas", cv2.flip(canvas, 1))
         if cv2.waitKey(5) & 0xFF == 27:
