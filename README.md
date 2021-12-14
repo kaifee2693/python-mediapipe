@@ -9,7 +9,8 @@
 
 **Run the script using**
 <br>
->python mediapipe-holistic.py
+
+`python mediapipe-holistic.py`
 
 <br/>
 Exit the camera capture screen by hitting 'Esc' key.
